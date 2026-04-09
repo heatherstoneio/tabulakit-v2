@@ -1,0 +1,21 @@
+{
+  "name": "Mission",
+  "description": "Operational reference site for mission or exercise planning — timeline, roster, comms log, checklists, risk register",
+  "version": "1.0.0",
+  "questions": [
+    {
+      "key": "mission_name",
+      "prompt": "What is the name of this mission or exercise?",
+      "default": "Mission Name",
+      "type": "text"
+    },
+    {
+      "key": "org_name",
+      "prompt": "What is the unit or organization name?",
+      "default": "Organization",
+      "type": "text"
+    }
+  ],
+  "skills": ["note", "aar"],
+  "getting_started": "Start by filling in the timeline and roster pages. Use `/note` to log communications and `/aar` to capture observations."
+}
