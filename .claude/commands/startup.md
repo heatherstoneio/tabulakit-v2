@@ -23,7 +23,23 @@ Ask the user:
 
 ---
 
-## Step 2: Theme Color
+## Step 2: Template Selection
+
+Read the available templates from `.tabulakit/templates/` by checking each subdirectory for a `manifest.json`. Present them to the user:
+
+| Template | Description |
+|----------|-------------|
+| **Blank** (default) | Minimal starting point — a home page, about page, and getting started guide |
+| **Mission** | Operational reference site — timeline, roster, comms log, checklists, risk register |
+| **Course** | Workshop or course site — syllabus, schedule, session outlines, pre-work, resources |
+
+If the user picks **Mission** or **Course**, also ask the template-specific questions from `manifest.json` → `questions` array. Use the `prompt` field as the question and `default` field as the fallback.
+
+**Default:** Blank
+
+---
+
+## Step 3: Theme Color
 
 Present these palette options and ask the user to pick one (or provide a custom hex color):
 
@@ -42,7 +58,7 @@ Present these palette options and ask the user to pick one (or provide a custom 
 
 ---
 
-## Step 3: Deployment Target
+## Step 4: Deployment Target
 
 Ask the user which deployment target they want to use:
 
@@ -57,9 +73,9 @@ Ask the user which deployment target they want to use:
 
 ---
 
-## Step 4: Authentication (Firebase Only)
+## Step 5: Authentication (Firebase Only)
 
-**Only ask this if the user chose Firebase in Step 3.** Otherwise, skip to Step 5.
+**Only ask this if the user chose Firebase in Step 4.** Otherwise, skip to Step 6.
 
 Ask which auth mode they want:
 
@@ -85,9 +101,34 @@ Then tell the user:
 
 ---
 
-## Step 5: Apply Changes
+## Step 6: Command Architecture Module (Optional)
+
+Ask:
+
+> Would you like to include the Command Architecture reference? It's an organizational framework for structured planning and execution — useful if your team uses military-style planning processes (OPORDs, FRAGOs, AARs) or wants to adopt them.
+
+If **yes**: the module content will be installed from `.tabulakit/modules/command-architecture/`.
+
+**Default:** No
+
+---
+
+## Step 7: Apply Changes
 
 Now make all the changes based on the user's answers:
+
+### Install Template
+
+1. **Copy template content** from `.tabulakit/templates/<selected>/content/` into `site/`, overwriting existing files
+2. **Replace `site/_sidebar.md`** with the template's `sidebar.md`
+3. **Replace placeholders** in all copied files: `{{site_name}}`, `{{site_description}}`, and any template-specific variables from the manifest questions (e.g., `{{mission_name}}`, `{{org_name}}`, `{{course_title}}`)
+4. **Install template skills** — copy any skills from `.tabulakit/templates/<selected>/skills/` into `.claude/commands/` and add `Skill(<name>)` entries to `.claude/settings.json` permissions
+
+### Install CA Module (if selected)
+
+1. Copy content from `.tabulakit/modules/command-architecture/content/` into `site/docs/command-architecture/`
+2. Copy `CA_VERSION.md` into `site/docs/command-architecture/`
+3. Append the sidebar entries from `.tabulakit/modules/command-architecture/sidebar-section.md` to `site/_sidebar.md`
 
 ### Update `site/config.js`
 
@@ -96,39 +137,12 @@ Replace the values in `window.TABULAKIT_CONFIG`:
 - Set `description` to the user's description
 - Set `theme.color` to the chosen hex color
 
-### Update `site/_sidebar.md`
-
-The sidebar already works — no changes needed unless the user wants a custom structure.
-
 ### Update `site/auth-config.js` (Firebase with auth only)
 
 If the user chose Firebase with domain or allowlist mode:
 - Set `mode` to `"domain"` or `"allowlist"`
 - Set `allowedDomain` (for domain mode) or `allowedEmails` (for allowlist mode)
 - If the user provided Firebase config values, fill in the `firebase` object
-
-### Update `site/README.md`
-
-Replace the home page content with a welcome page for the user's site:
-
-```markdown
-# {Site Name}
-
-{Description}
-
-## Getting Started
-
-Welcome to your documentation site! Here's how to add content:
-
-1. Create a new `.md` file in the `site/` folder
-2. Add a link to it in `site/_sidebar.md`
-3. Push your changes — the site updates automatically
-
-Need help? Just ask Claude Code:
-- "Add a new page about X"
-- "Update the sidebar"
-- "Change the theme color"
-```
 
 ### Clean up deployment configs (optional)
 
@@ -142,7 +156,7 @@ Also offer to remove the deployment guides from `site/` for unused targets, and 
 
 ---
 
-## Step 6: Summary
+## Step 8: Summary
 
 After making all changes, present a summary:
 
@@ -152,13 +166,19 @@ Setup Complete!
 
 Site Name:    {name}
 Description:  {description}
+Template:     {template}
 Theme Color:  {color} {hex}
 Deploy To:    {target}
 Auth Mode:    {mode}
+CA Module:    {yes/no}
 
 Files Updated:
   - site/config.js
   - site/README.md
+  - site/_sidebar.md
+  {- template content files}
+  {- template skills installed}
+  {- site/docs/command-architecture/ (if CA selected)}
   {- site/auth-config.js}
   {- removed: ...}
 
@@ -189,6 +209,8 @@ Then show the **manual steps** the user still needs to do, based on their deploy
 **Skip:**
 > When you're ready to deploy, check the deployment guides in the sidebar.
 
+If a template has `getting_started` text in its manifest, include it after the deployment instructions.
+
 ---
 
 ## Important Notes
@@ -197,3 +219,4 @@ Then show the **manual steps** the user still needs to do, based on their deploy
 - If the user seems confused at any step, explain in plain language and offer the default
 - Keep the whole interaction under 3 minutes — don't over-explain
 - After the wizard, commit the changes with a message like: `feat: configure site via /startup wizard`
+- The deploy guide files (`deploy-github-pages.md`, `deploy-firebase.md`, `deploy-netlify.md`) and Claude Code setup file (`claude-code-setup.md`) should NOT be overwritten by template content — they are part of the base site infrastructure
