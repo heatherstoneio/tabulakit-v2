@@ -6,28 +6,84 @@ Built on [Docsify](https://docsify.js.org/) with [Claude Code](https://claude.ai
 
 ## Quick Start
 
-### 1. Create Your Site
+### Prerequisites
 
-Click **[Use this template](https://github.com/heatherstoneio/tabulakit/generate)** to create your own copy, then clone it:
+- A [GitHub account](https://github.com/signup)
+- [VS Code](https://code.visualstudio.com/) with the [Claude Code extension](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code)
+- If using WSL: connect to WSL as a remote in VS Code first
 
-```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
-```
+### Step 1: Create Your Site
 
-### 2. Run the Setup Wizard
+Open Claude Code in VS Code and paste this prompt:
 
-Open the repo in Claude Code and run:
+> I want to create a documentation site using TabulaKit. Here's what I need you to do:
+>
+> 1. Check if `gh` (GitHub CLI) is installed. If not, install it.
+> 2. Check if I'm authenticated with `gh auth status`. If not, run `gh auth login` and walk me through it.
+> 3. Create a new repo from the TabulaKit template by running:
+>    `gh repo create MY-SITE --template heatherstoneio/tabulakit --public --clone`
+>    (Ask me what I want to name my repo before running this — replace MY-SITE with my answer.)
+> 4. After cloning, `cd` into the new repo directory.
+> 5. Write a file at `CLAUDE.md` (in the repo root, NOT inside .claude/) with this content:
+>
+> ```
+> # Setup Instructions
+>
+> This is a freshly forked TabulaKit site that hasn't been configured yet.
+>
+> On the NEXT session (after this one), the .claude/ folder will be active
+> with full project context, permissions, and skills.
+>
+> When the user returns, tell them: "Welcome back! Your TabulaKit repo is
+> ready. Type /startup to configure your site — it'll walk you through
+> picking a name, template, colors, and deployment target."
+>
+> After /startup completes, delete this root CLAUDE.md file — the real
+> project context lives in .claude/CLAUDE.md.
+> ```
+>
+> 6. Commit that file: `git add CLAUDE.md && git commit -m "docs: add setup breadcrumb for first session"`
+> 7. Push: `git push origin main`
+> 8. Tell me to **close this Claude Code session and open a new one** in the repo folder so the `.claude/settings.json` and skills take effect.
+>
+> If anything fails, explain what went wrong and help me fix it. I may be non-technical.
+
+Claude Code will create your repo, set everything up, and tell you when to restart.
+
+### Step 2: Configure Your Site
+
+After restarting Claude Code in your new repo folder, type:
 
 ```
 /startup
 ```
 
-The wizard walks you through naming your site, picking a template, choosing colors, and selecting a deployment target.
+The wizard walks you through:
+- Naming your site
+- Picking a template (blank, mission planning, or course/workshop)
+- Choosing a theme color
+- Selecting a deployment target (GitHub Pages, Firebase, or Netlify)
+- Optional: installing the Command Architecture reference module
 
-### 3. Deploy
+### Step 3: Deploy
 
-Push to `main` and your site goes live. Each deployment target requires a one-time manual setup step — the wizard tells you exactly what to do.
+The wizard tells you exactly what to do for your chosen deployment target. For most people (GitHub Pages), it's:
+
+1. Go to your repo on GitHub → **Settings** → **Pages**
+2. Set Source to **GitHub Actions**
+3. Push your changes — the site deploys automatically
+
+That's it. Your site is live.
+
+## What You Can Do After Setup
+
+Once your site is running, just talk to Claude Code:
+
+- *"Add a new page about our onboarding process"*
+- *"Change the theme color to green"*
+- *"Update the sidebar with a Resources section"*
+- *"Help me write documentation about X"*
+- *"Deploy to Firebase"*
 
 ## Templates
 
@@ -152,14 +208,15 @@ No build step, no dependencies to install. Edit markdown, refresh browser.
 
 | Problem | Solution |
 |---------|----------|
-| `/startup` not recognized | Make sure you're running Claude Code from the repo root |
+| `/startup` not recognized | Make sure you're running Claude Code from the repo root. If you just cloned, restart the session. |
+| `gh` not found | Install GitHub CLI: `sudo apt install gh` (Ubuntu/WSL) or see [cli.github.com](https://cli.github.com) |
+| `gh auth` fails | Run `gh auth login`, choose HTTPS, and authenticate via browser |
 | Local preview won't start | Run `npx live-server site --port=3000` from the repo root |
 | Site shows blank page | Check that `site/index.html` exists |
 | GitHub Pages not deploying | Go to Settings → Pages and set Source to **GitHub Actions** |
 | Firebase deploy fails | Run `firebase login` first, make sure `.firebaserc` has your project ID |
 | Auth not working | Check that Firebase Auth is enabled and `auth-config.js` has your config values |
 | Sidebar not showing | Verify `site/_sidebar.md` exists and has valid markdown links |
-| Search not working | Make sure `docsify.search` is `true` in `site/config.js` |
 
 ## License
 
