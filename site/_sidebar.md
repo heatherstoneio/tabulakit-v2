@@ -3,3 +3,4 @@
 - **DEPLOYMENT**
 - [GitHub Pages](deploy-github-pages.md)
 - [Firebase](deploy-firebase.md)
+- [Netlify](deploy-netlify.md)
