@@ -58,6 +58,22 @@ Present these palette options and ask the user to pick one (or provide a custom 
 
 ---
 
+## Step 3b: Font Size
+
+Ask the user what font size they'd like:
+
+| Option | Size | Best For |
+|--------|------|----------|
+| **Standard** | 17px | General use, comfortable for most screens |
+| **Large** (default) | 20px | Presentations, sharing your screen, accessibility |
+| **Compact** | 15px | Dense content, users who prefer more text on screen |
+
+Update the `--base-font-size` CSS variable in `site/index.html`, and the `font-size` on `body` and `.markdown-section` to match.
+
+**Default:** Large (20px)
+
+---
+
 ## Step 4: Deployment Target
 
 Ask the user which deployment target they want to use:
