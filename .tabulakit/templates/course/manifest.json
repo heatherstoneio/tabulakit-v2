@@ -1,0 +1,27 @@
+{
+  "name": "Course",
+  "description": "Workshop or course site — syllabus, schedule, session outlines, pre-work, and participant resources",
+  "version": "1.0.0",
+  "questions": [
+    {
+      "key": "course_title",
+      "prompt": "What is the title of this course or workshop?",
+      "default": "Workshop",
+      "type": "text"
+    },
+    {
+      "key": "instructor_name",
+      "prompt": "Who is the instructor or facilitator?",
+      "default": "Instructor",
+      "type": "text"
+    },
+    {
+      "key": "course_date",
+      "prompt": "When is the course? (e.g., April 29, 2026)",
+      "default": "TBD",
+      "type": "text"
+    }
+  ],
+  "skills": [],
+  "getting_started": "Start by updating the syllabus and schedule. Fill in session outlines as you develop the course content."
+}
