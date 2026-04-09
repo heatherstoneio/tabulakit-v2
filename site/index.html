@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading...</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css">
+  <script src="config.js"></script>
+  <script src="auth-config.js"></script>
+  <style>
+    :root {
+      --theme-color: #3b82f6;
+      --sidebar-width: 260px;
+      --base-font-size: 15px;
+      --sidebar-nav-link-color--active: var(--theme-color);
+      --sidebar-name-color: var(--theme-color);
+      --sidebar-nav-link-border-color--active: var(--theme-color);
+      --heading-color: var(--theme-color);
+      --heading-h2-color: var(--theme-color);
+      --blockquote-border-color: var(--theme-color);
+      --table-head-background: #2E4057;
+      --code-inline-background: #1a1a2e;
+      --code-inline-color: var(--theme-color);
+      --sidebar-nav-link-padding: 0.15em 0;
+      --sidebar-nav-strong-margin: 1.2em -25px 0.4em 0;
+      --sidebar-nav-strong-padding: 0.15em 0 0.4em 0;
+    }
+    .sidebar-nav { padding-bottom: 8rem !important; }
+    .sidebar > h1, .sidebar > h1 > a { text-align: left !important; }
+    .sidebar > h1 { padding-left: 0; margin-left: 0; }
+    .sidebar > h1 > a { padding: 0 !important; margin: 0 !important; }
+    .sidebar-nav > ul > li > p { margin: 0 !important; }
+    .sidebar-nav > ul > li:has(> p > strong) { margin-top: 0.8em !important; }
+    .sidebar-nav > ul > li:has(> p > strong):first-child { margin-top: 0 !important; }
+    table { width: 100%; }
+    td, th { vertical-align: top; }
+    th { background: #2E4057 !important; color: white !important; }
+    .markdown-section h1,
+    .markdown-section h2,
+    .markdown-section h3 { border-bottom: none !important; padding-bottom: 0; }
+
+    /* Auth gate styles */
+    #auth-gate {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #1a1a2e;
+      color: #ccc;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    #auth-gate h1 { color: var(--theme-color); margin-bottom: 0.5em; }
+    #auth-gate p { margin: 0.3em 0; }
+    #auth-gate .subtitle { color: #888; font-size: 0.9em; }
+    #auth-gate .error { color: #cc0000; margin-top: 1em; }
+    #sign-in-btn {
+      margin-top: 2em;
+      padding: 12px 32px;
+      font-size: 1em;
+      background: var(--theme-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #sign-in-btn:hover { opacity: 0.85; }
+    #sign-in-btn:disabled { background: #666; cursor: wait; }
+  </style>
+</head>
+<body>
+  <div id="auth-gate" style="display:none">
+    <h1 id="auth-site-name"></h1>
+    <p id="auth-site-desc"></p>
+    <p class="subtitle" id="auth-hint"></p>
+    <button id="sign-in-btn" onclick="signIn()">Sign in with Google</button>
+    <p id="auth-error" class="error" style="display:none"></p>
+  </div>
+  <div id="app"></div>
+
+  <script>
+    (function() {
+      var config = window.TABULAKIT_CONFIG || {};
+      var auth = window.TABULAKIT_AUTH || { mode: "public" };
+      var theme = config.theme || {};
+
+      // Apply site title
+      document.title = config.name || "Documentation";
+
+      // Apply theme colors from config
+      var root = document.documentElement.style;
+      if (theme.color) {
+        root.setProperty('--theme-color', theme.color);
+      }
+      if (theme.sidebarWidth) {
+        root.setProperty('--sidebar-width', theme.sidebarWidth);
+      }
+      if (theme.baseFontSize) {
+        root.setProperty('--base-font-size', theme.baseFontSize);
+      }
+
+      // Build sidebar name (with optional logo)
+      var sidebarName = config.name || "Documentation";
+      if (config.logo) {
+        sidebarName = '<img src="' + config.logo + '" alt="" style="width:36px;vertical-align:middle;margin-right:10px">' + sidebarName;
+      }
+
+      function loadDocsify() {
+        // Hide auth gate, show app
+        var gate = document.getElementById('auth-gate');
+        if (gate) gate.style.display = 'none';
+        document.getElementById('app').style.display = '';
+
+        var docsifyOpts = config.docsify || {};
+
+        window.$docsify = {
+          name: sidebarName,
+          repo: false,
+          loadSidebar: true,
+          subMaxLevel: docsifyOpts.subMaxLevel || 3,
+          auto2top: true,
+          search: docsifyOpts.search ? {
+            placeholder: 'Search...',
+            noData: 'No results',
+            depth: 3
+          } : false
+        };
+
+        var docsifyScript = document.createElement('script');
+        docsifyScript.src = 'https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js';
+        docsifyScript.onload = function() {
+          if (docsifyOpts.search) {
+            var searchScript = document.createElement('script');
+            searchScript.src = 'https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js';
+            document.body.appendChild(searchScript);
+          }
+        };
+        document.body.appendChild(docsifyScript);
+      }
+
+      // --- Public mode: skip auth entirely ---
+      if (auth.mode === "public") {
+        loadDocsify();
+        return;
+      }
+
+      // --- Authenticated modes: show gate ---
+      var gate = document.getElementById('auth-gate');
+      gate.style.display = 'flex';
+      document.getElementById('auth-site-name').textContent = config.name || "Documentation";
+      document.getElementById('auth-site-desc').textContent = config.description || "";
+
+      if (auth.mode === "domain") {
+        document.getElementById('auth-hint').textContent = "Sign in with your " + auth.allowedDomain + " account";
+      } else {
+        document.getElementById('auth-hint').textContent = "Sign in with an authorized Google account";
+      }
+
+      // Load Firebase and set up auth
+      function loadScript(src) {
+        return new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          s.type = 'module';
+          s.textContent = 'import * as m from "' + src + '"; window.__fb_mod = window.__fb_mod || {}; window.__fb_mod["' + src + '"] = m; document.dispatchEvent(new Event("fb_loaded"));';
+          document.head.appendChild(s);
+        });
+      }
+
+      // Use ES module imports for Firebase
+      var initScript = document.createElement('script');
+      initScript.type = 'module';
+      initScript.textContent = [
+        'import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";',
+        'import { getAuth, signInWithPopup, onAuthStateChanged, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";',
+        '',
+        'var auth = window.TABULAKIT_AUTH;',
+        'var app = initializeApp(auth.firebase);',
+        'var fbAuth = getAuth(app);',
+        'var provider = new GoogleAuthProvider();',
+        '',
+        'if (auth.mode === "domain" && auth.allowedDomain) {',
+        '  provider.setCustomParameters({ hd: auth.allowedDomain });',
+        '}',
+        '',
+        'function checkEmail(email) {',
+        '  if (auth.mode === "domain") {',
+        '    return email.endsWith("@" + auth.allowedDomain);',
+        '  }',
+        '  if (auth.mode === "allowlist") {',
+        '    return (auth.allowedEmails || []).indexOf(email) !== -1;',
+        '  }',
+        '  return false;',
+        '}',
+        '',
+        'function showError(msg) {',
+        '  var el = document.getElementById("auth-error");',
+        '  el.textContent = msg;',
+        '  el.style.display = "";',
+        '  document.getElementById("sign-in-btn").disabled = false;',
+        '}',
+        '',
+        'window.signIn = async function() {',
+        '  document.getElementById("sign-in-btn").disabled = true;',
+        '  document.getElementById("auth-error").style.display = "none";',
+        '  try {',
+        '    var result = await signInWithPopup(fbAuth, provider);',
+        '    if (!checkEmail(result.user.email)) {',
+        '      await fbAuth.signOut();',
+        '      showError("Access denied. Your account is not authorized.");',
+        '      return;',
+        '    }',
+        '    window.__tabulakit_loadDocsify();',
+        '  } catch (e) {',
+        '    showError("Sign-in failed. Please try again.");',
+        '  }',
+        '};',
+        '',
+        '// Auto-login for returning users',
+        'if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {',
+        '  window.__tabulakit_loadDocsify();',
+        '} else {',
+        '  onAuthStateChanged(fbAuth, function(user) {',
+        '    if (user && checkEmail(user.email)) {',
+        '      window.__tabulakit_loadDocsify();',
+        '    }',
+        '  });',
+        '}'
+      ].join('\n');
+
+      window.__tabulakit_loadDocsify = loadDocsify;
+      document.head.appendChild(initScript);
+    })();
+  </script>
+</body>
+</html>

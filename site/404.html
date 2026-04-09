@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script>
+    // Redirect all 404s to index.html for SPA routing
+    // GitHub Pages serves this file for missing paths
+    window.location.replace(
+      window.location.origin + '/#/' + window.location.pathname.replace(/^\//, '')
+    );
+  </script>
+</head>
+<body>
+  Redirecting...
+</body>
+</html>
