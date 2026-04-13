@@ -31,9 +31,16 @@
       --sidebar-nav-link-padding: 0.3em 0;
       --sidebar-nav-strong-margin: 1.2em -25px 0.4em 0;
       --sidebar-nav-strong-padding: 0.15em 0 0.4em 0;
-      --sidebar-nav-strong-color: #999999;
+      --sidebar-nav-strong-color: var(--theme-color-teal);
       --sidebar-nav-strong-font-size: 0.75em;
       --sidebar-nav-strong-text-transform: uppercase;
+      --sidebar-nav-strong-border-color: transparent;
+      --sidebar-nav-strong-border-width: 0;
+      --sidebar-nav-pagelink-background: none;
+      --sidebar-nav-pagelink-background--active: none;
+      --sidebar-nav-pagelink-background--collapse: none;
+      --sidebar-nav-pagelink-background--loaded: none;
+      --sidebar-nav-pagelink-padding: 0.25em 0;
       --link-color: var(--theme-color-teal);
       --link-color--hover: #5eead4;
       --sidebar-border-color: #3a3a3a;
@@ -52,7 +59,7 @@
     .sidebar-nav > ul > li:has(> p > strong) { margin-top: 1.2em !important; }
     .sidebar-nav > ul > li:has(> p > strong):first-child { margin-top: 0 !important; }
     .sidebar-nav > ul > li > p > strong {
-      color: #999999;
+      color: var(--theme-color-teal);
       font-size: 0.7em;
       text-transform: uppercase;
       letter-spacing: 0.1em;
