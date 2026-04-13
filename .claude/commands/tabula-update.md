@@ -67,6 +67,7 @@ TabulaKit updates fall into two categories:
 
 **Framework files** (safe to update — these are TabulaKit infrastructure):
 - `site/index.html` — the app shell, theme engine, and plugins
+- `site/css/tabulakit.css` — framework styles (the main stylesheet)
 - `.github/workflows/deploy.yml` — deployment automation
 - `firebase.json` — hosting configuration
 - `netlify.toml` — hosting configuration
@@ -80,9 +81,11 @@ TabulaKit updates fall into two categories:
 - `site/_sidebar.md` — navigation
 - `site/config.js` — site identity and colors
 - `site/auth-config.js` — authentication settings
+- `site/css/custom.css` — user style overrides
 - `site/*.md` (except README.md at root of templates) — user's documentation pages
 - `.firebaserc` — user's Firebase project binding
 - `.claude/state/` — session state
+- `.tabulakit/config.json` — site-specific settings (preview port, etc.)
 
 ### 6. Apply updates selectively
 

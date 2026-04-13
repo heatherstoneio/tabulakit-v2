@@ -1,0 +1,23 @@
+/**
+ * Custom Styles
+ *
+ * Add your own CSS overrides here. This file loads AFTER tabulakit.css,
+ * so your rules automatically take priority.
+ *
+ * This file is yours — it is never modified by TabulaKit updates.
+ *
+ * Examples:
+ *
+ *   Change the sidebar background:
+ *     :root { --sidebar-background: #1a1a2e; }
+ *
+ *   Make headings larger:
+ *     .markdown-section h1 { font-size: 2em; }
+ *
+ *   Add a custom font:
+ *     @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+ *     body { font-family: 'Inter', sans-serif; }
+ *
+ *   Hide the search bar:
+ *     .search { display: none; }
+ */
