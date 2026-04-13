@@ -154,6 +154,13 @@
     .sidebar::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.5); border-radius: 3px; }
     .sidebar::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.7); }
 
+    /* Main scrollbar: thin, dark track, themed rounded thumb */
+    html::-webkit-scrollbar { width: 8px; }
+    html::-webkit-scrollbar-track { background: var(--base-background-color, #222222); }
+    html::-webkit-scrollbar-thumb { background: var(--theme-color); border-radius: 4px; }
+    html::-webkit-scrollbar-thumb:hover { background: var(--theme-color); filter: brightness(1.2); }
+    html { scrollbar-width: thin; scrollbar-color: var(--theme-color) var(--base-background-color, #222222); }
+
     /* Auth gate styles */
     #auth-gate {
       display: flex;
