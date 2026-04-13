@@ -104,6 +104,8 @@ npx live-server site --port=3000
 |-------|---------|
 | `/startup` | Initial site setup wizard — name, theme, deployment target |
 | `/orient` | Save session state so the next Claude Code session picks up where you left off |
+| `/publish` | Save and publish changes to the live site |
+| `/tabula-update` | Check for and apply the latest TabulaKit template improvements |
 
 ## Permissions
 
