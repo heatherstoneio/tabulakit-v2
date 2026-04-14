@@ -43,7 +43,7 @@ project context lives in .claude/CLAUDE.md.
 
 7. Commit that file: git add CLAUDE.md && git commit -m "docs: add setup breadcrumb for first session"
 8. Push: git push origin main
-9. Tell me to type /exit to close this Claude Code session, then open a new one in the repo folder so the settings and skills take effect.
+9. Tell me to click the "New Session" button at the top of the Claude Code panel to start a fresh session so the settings and skills take effect.
 
 If anything fails, explain what went wrong and help me fix it. I may be non-technical.
 ```

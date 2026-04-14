@@ -267,5 +267,5 @@ If a template has `getting_started` text in its manifest, include it after the d
 - If the user seems confused at any step, explain in plain language and offer the default
 - Keep the whole interaction under 3 minutes — don't over-explain
 - After the wizard, commit the changes with a message like: `feat: configure site via /startup wizard`
-- When telling the user to close their session, be explicit: "Type `/exit` in Claude Code to end this session, then start a new one. Your settings will take full effect in the new session."
+- When telling the user to close their session, be explicit: "Click the **New Session** button (at the top of the Claude Code panel) to start a fresh session. Your settings will take full effect in the new session."
 - The deploy guide files (`deploy-github-pages.md`, `deploy-firebase.md`, `deploy-netlify.md`) and Claude Code setup file (`claude-code-setup.md`) should NOT be overwritten by template content — they are part of the base site infrastructure
