@@ -18,18 +18,24 @@ Open VS Code, launch Claude Code, and paste this prompt:
 ```text
 I want to create a documentation site using TabulaKit. Here's what I need you to do:
 
+IMPORTANT: Before you start, tell me: "During this setup, you'll see permission prompts asking you to approve each action. That's normal for this first session — just approve them. Once we're done and you reopen in your new project folder, permissions will be pre-configured and you won't see these prompts anymore."
+
 1. Check if gh (GitHub CLI) is installed. If not, install it.
 2. Check if I'm authenticated with gh auth status. If not, run gh auth login and walk me through it. When it asks about token expiration, recommend "No expiration" so the token doesn't stop working later.
-3. Ask me what I want to name my repo and give a one-line description.
+3. Ask me three things:
+   a. What do you want to name your site? (This becomes the repo name and the site title.)
+   b. Give a one-line description of what this site is for.
+   c. Where should I create this repo — on your personal GitHub account, or on a GitHub organization? (If org, ask which one.)
 4. Create a new repo from the TabulaKit template by running:
-   gh repo create MY-SITE --template heatherstoneio/tabulakit --public --clone
-   (Replace MY-SITE with my answer from step 3.)
+   gh repo create [OWNER/]MY-SITE --template heatherstoneio/tabulakit --public --clone
+   (Replace MY-SITE with the site name. If they chose an org, use ORG/MY-SITE format.)
 5. After cloning, cd into the new repo directory.
 6. Write a file at CLAUDE.md (in the repo root, NOT inside .claude/) with this content:
 
 # Setup Instructions
 
 This is a freshly forked TabulaKit site that hasn't been configured yet.
+Site name: [use the name from step 3]
 Site description: [use the description from step 3]
 
 On the NEXT session (after this one), the .claude/ folder will be active
@@ -43,16 +49,14 @@ project context lives in .claude/CLAUDE.md.
 
 7. Commit that file: git add CLAUDE.md && git commit -m "docs: add setup breadcrumb for first session"
 8. Push: git push origin main
-9. Tell me to click the "New Session" button at the top of the Claude Code panel to start a fresh session so the settings and skills take effect.
-
-NOTE: During this first session you'll see permission prompts for every action — that's normal. Once the new session starts inside the repo, permissions are pre-configured and you won't be prompted anymore.
+9. Tell me: "Setup is complete! Now use File > Open Folder to open the new repo folder (the one we just created). That will automatically start a fresh Claude Code session with all the project settings loaded. Then type /startup to configure your site."
 
 If anything fails, explain what went wrong and help me fix it. I may be non-technical.
 ```
 
 Claude Code will handle everything — installing tools, authenticating with GitHub, creating your repo, and setting things up. Just answer its questions.
 
-When it tells you to restart, **close the Claude Code session** and **open a new one** from your new repo folder.
+When it tells you to switch folders, go to **File > Open Folder** and open the new repo folder. This starts a fresh session with all permissions pre-configured.
 
 ## Step 2: Run the Setup Wizard
 

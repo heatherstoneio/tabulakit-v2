@@ -20,10 +20,23 @@ Before asking any questions, orient the user:
 > **Welcome to TabulaKit setup!**
 >
 > I'm going to walk you through configuring your documentation site. It takes about 2-3 minutes. I'll ask you a few questions — things like what to name your site, what colors you want, and where to host it.
->
-> During this setup, I'll be asking for your permission on each step. Once setup is complete, I'll have broader permissions to help you manage your site without all the prompts.
->
-> Ready? Let's go!
+
+Then ask: **"Before we start, are you comfortable with software terms like 'commit' and 'deploy', or would you prefer I use simpler language like 'save' and 'publish'?"**
+
+Store their preference. If they prefer simpler language, avoid all git/dev terminology throughout this wizard AND write the following to `.claude/CLAUDE.md` (append to the end, under a new `## User Preferences` section):
+
+```
+## User Preferences
+
+This user prefers non-technical language. Avoid git terminology (commit, push, pull, merge, branch, deploy, repository). Instead use:
+- "save" instead of "commit"
+- "publish" instead of "push" or "deploy"
+- "your site's files" instead of "repository"
+- "undo" instead of "revert"
+- "update" instead of "pull"
+```
+
+Then ask: **"Ready to go?"** and present options: "Yes, let's do it!" (default) and "I have a question first."
 
 Wait for the user to acknowledge before proceeding.
 
@@ -31,12 +44,11 @@ Wait for the user to acknowledge before proceeding.
 
 ## Step 1: Site Name & Description
 
-First, check if a site description already exists — the user may have provided one during the initial repo creation (check the root `CLAUDE.md` breadcrumb file or `site/config.js` for a non-default description). If a description is already set, confirm it with the user rather than asking again.
+First, check if a site name and description already exist — the user may have provided them during the initial repo creation. Check the root `CLAUDE.md` breadcrumb file for `Site name:` and `Site description:` lines, or check `site/config.js` for non-default values.
 
-Ask the user:
-- What is the name of your documentation site?
-- (If no existing description) Give a one-line description of what this site is for.
-- (If existing description found) I see your description is "{description}" — want to keep that, or change it?
+- If **both** name and description are found: confirm them — "I see your site is called '{name}' with the description '{description}'. Want to keep these, or change anything?"
+- If **only description** found: confirm it and ask for the name
+- If **neither** found: ask for both
 
 **Defaults:** name = "My Documentation", description = "A documentation site powered by TabulaKit"
 
@@ -58,22 +70,40 @@ If the user picks **Mission** or **Course**, also ask the template-specific ques
 
 ---
 
-## Step 3: Theme Color
+## Step 3: Color Scheme
 
-Present these palette options and ask the user to pick one (or provide a custom hex color):
+TabulaKit uses five colors: sidebar background, body background, primary accent (headings), secondary accent (links/nav highlights), and text color. Present complete color schemes rather than individual colors.
 
-| Option | Color | Hex |
-|--------|-------|-----|
-| **Blue** (default) | A clean, professional blue | `#3b82f6` |
-| **Teal** | Calm and modern | `#14b8a6` |
-| **Purple** | Bold and creative | `#8b5cf6` |
-| **Orange** | Warm and energetic | `#f97316` |
-| **Green** | Natural and balanced | `#22c55e` |
-| **Red** | Strong and attention-grabbing | `#ef4444` |
-| **Slate** | Minimal and neutral | `#64748b` |
-| **Custom** | User provides a hex color | (ask) |
+Present the options using a visual preview format. Use the AskUserQuestion tool with preview panels showing a mockup of each scheme:
 
-**Default:** Blue (`#3b82f6`)
+| Scheme | Accent | Secondary | Sidebar BG | Body BG | Text | Vibe |
+|--------|--------|-----------|------------|---------|------|------|
+| **Heatherstone** (default) | `#e84118` (red-orange) | `#3bc0cb` (teal) | `#2a2a2a` | `#222222` | `#dddddd` | Bold, warm, professional |
+| **Ocean** | `#3b82f6` (blue) | `#22d3ee` (cyan) | `#1e293b` | `#0f172a` | `#e2e8f0` | Cool, calm, corporate |
+| **Forest** | `#22c55e` (green) | `#a3e635` (lime) | `#1a2e1a` | `#141e14` | `#d4e4d4` | Natural, balanced, grounded |
+| **Amethyst** | `#8b5cf6` (purple) | `#f472b6` (pink) | `#1e1b2e` | `#15121e` | `#e2ddf0` | Creative, bold, modern |
+| **Ember** | `#f97316` (orange) | `#fbbf24` (amber) | `#2a2019` | `#221a12` | `#ede0d0` | Warm, energetic, inviting |
+| **Minimal** | `#64748b` (slate) | `#94a3b8` (light slate) | `#1e1e1e` | `#171717` | `#d4d4d4` | Clean, neutral, understated |
+| **Custom** | User picks colors | | | | | |
+
+For each scheme in the preview, show a formatted block like:
+```
+┌─────────────────────────────────────┐
+│  SIDEBAR        │  CONTENT          │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓  │                   │
+│  ■ SECTION      │  ██ Heading       │
+│    · Page One   │  Body text here   │
+│    · Page Two   │  Link text here   │
+│                 │                   │
+└─────────────────────────────────────┘
+```
+Using the actual colors described in words (e.g., "red-orange heading, teal links on dark gray").
+
+When the user picks a scheme, apply ALL five colors — update `site/css/custom.css` with the full palette as CSS variable overrides.
+
+If the user picks **Custom**, ask them for their primary accent color and secondary accent color, then auto-generate harmonious sidebar/body/text colors.
+
+**Default:** Heatherstone
 
 ---
 

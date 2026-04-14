@@ -37,9 +37,9 @@ Use a commit message that describes the actual changes (not just "update site").
 
 Check which deployment method is configured:
 
-- **GitHub Pages** (`.github/workflows/deploy.yml` exists): Changes will go live automatically in about a minute. Tell the user: "Your changes are being published now. They'll be live in about a minute."
+- **GitHub Pages** (`.github/workflows/deploy.yml` exists): Changes will go live automatically in about a minute. Tell the user: "Your changes are being published now. They'll be live in about a minute. If you don't see the changes right away, try a hard refresh in your browser (Ctrl+Shift+R or Cmd+Shift+R)."
 
-- **Netlify** (`netlify.toml` exists): Same — auto-deploys on push. Tell the user: "Netlify is publishing your changes now. They'll be live in about a minute."
+- **Netlify** (`netlify.toml` exists): Same — auto-deploys on push. Tell the user: "Netlify is publishing your changes now. They'll be live in about a minute. If you don't see the changes right away, try a hard refresh in your browser (Ctrl+Shift+R or Cmd+Shift+R)."
 
 - **Firebase** (`firebase.json` exists): Check if `.firebaserc` exists (meaning Firebase is configured). If so, run `firebase deploy --only hosting` and report the result. If not, tell the user their changes are saved but Firebase hosting needs to be set up first.
 

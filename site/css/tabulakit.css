@@ -153,6 +153,12 @@ th { background: #2E4057 !important; color: white !important; }
 .markdown-section h1:first-child { margin-top: 0 !important; }
 .markdown-section h2 { color: var(--theme-color); margin: 1rem 0 0 0 !important; padding: 0 !important; }
 .markdown-section h3 { color: #dddddd; margin: 1rem 0 0 0 !important; }
+.markdown-section h1 a,
+.markdown-section h2 a,
+.markdown-section h3 a { text-decoration: none !important; }
+.markdown-section h1 a:hover,
+.markdown-section h2 a:hover,
+.markdown-section h3 a:hover { text-decoration: none !important; }
 .markdown-section p { margin-top: 0 !important; }
 
 /* ===== Scrollbars ===== */
