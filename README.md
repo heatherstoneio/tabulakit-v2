@@ -1,227 +1,53 @@
-# TabulaKit
+# tabulakit-v2 (Astro development fork)
 
-A template for creating documentation sites with zero build step. Fork, run `/startup`, deploy in 5 minutes.
+**Status:** v2 Astro/Starlight development fork — in progress. Not yet the canonical TabulaKit.
 
-Built on [Docsify](https://docsify.js.org/) with [Claude Code](https://claude.ai/code) integration for AI-assisted content creation and site management.
+This is the v2 Astro development fork of [`heatherstoneio/tabulakit`](https://github.com/heatherstoneio/tabulakit). Scaffolding work is tracked under [OPORD 202604-019](https://gitlab.com/heatherstone/mojo/-/issues/685) (TabulaKit Repo Split + v2 Astro Scaffold + Build Pipeline).
 
-## Quick Start
+## Current Users → Use Upstream
 
-### Prerequisites
+If you want a working TabulaKit template *today* (including for the April 29, 2026 course), use the upstream v1 repo:
 
-- A [GitHub account](https://github.com/signup)
-- [VS Code](https://code.visualstudio.com/) with the [Claude Code extension](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code)
-- If using WSL: connect to WSL as a remote in VS Code first
+👉 **[heatherstoneio/tabulakit](https://github.com/heatherstoneio/tabulakit)**
 
-### Step 1: Create Your Site
+The v1 Docsify path is unchanged and will stay the course-delivery source of truth until v2 reaches stability and merges back.
 
-Open Claude Code in VS Code and paste this prompt:
+## What This Fork Is
 
-> I want to create a documentation site using TabulaKit. Here's what I need you to do:
->
-> 1. Check if `gh` (GitHub CLI) is installed. If not, install it.
-> 2. Check if I'm authenticated with `gh auth status`. If not, run `gh auth login` and walk me through it.
-> 3. Create a new repo from the TabulaKit template by running:
->    `gh repo create MY-SITE --template heatherstoneio/tabulakit --public --clone`
->    (Ask me what I want to name my repo before running this — replace MY-SITE with my answer.)
-> 4. After cloning, `cd` into the new repo directory.
-> 5. Write a file at `CLAUDE.md` (in the repo root, NOT inside .claude/) with this content:
->
-> ```
-> # Setup Instructions
->
-> This is a freshly forked TabulaKit site that hasn't been configured yet.
->
-> On the NEXT session (after this one), the .claude/ folder will be active
-> with full project context, permissions, and skills.
->
-> When the user returns, tell them: "Welcome back! Your TabulaKit repo is
-> ready. Type /startup to configure your site — it'll walk you through
-> picking a name, template, colors, and deployment target."
->
-> After /startup completes, delete this root CLAUDE.md file — the real
-> project context lives in .claude/CLAUDE.md.
-> ```
->
-> 6. Commit that file: `git add CLAUDE.md && git commit -m "docs: add setup breadcrumb for first session"`
-> 7. Push: `git push origin main`
-> 8. Tell me to **close this Claude Code session and open a new one** in the repo folder so the `.claude/settings.json` and skills take effect.
->
-> If anything fails, explain what went wrong and help me fix it. I may be non-technical.
+A place to rebuild TabulaKit on [Astro](https://astro.build/) + [Starlight](https://starlight.astro.build/) while the v1 Docsify path continues shipping. Driven by Plan 202604-004 (TabulaKit Productization) and the April 2026 intelligence review on [Mojo Decomposition and Astro Migration Feasibility](https://gitlab.com/heatherstone/mojo/-/blob/main/docs/s2-intelligence/research/mojo-decomposition-and-astro-migration.md).
 
-Claude Code will create your repo, set everything up, and tell you when to restart.
+**What's changing:**
+- Site backend: Docsify → Astro/Starlight
+- Build model: zero-build → `astro build` via GitHub Actions, deployed to GitHub Pages
+- Content location: `site/` → `src/content/docs/`
+- `/startup` skill → scaffold-level bootstrap script that seeds initial Setup-tab GitHub Issues on fork-clone
 
-### Step 2: Configure Your Site
+**What's not changing:**
+- Fork-based template model (you fork a TabulaKit repo, you get a site)
+- Claude Code integration philosophy
 
-After restarting Claude Code in your new repo folder, type:
+## Merge-Back Plan
 
-```
-/startup
-```
+Once v2 proves stable — Phase A (OPORDs 020-022) complete, at least one non-founder user successfully onboarded via the v2 flow, and no open high-priority blockers — this fork **merges back** to upstream `heatherstoneio/tabulakit`. At that point:
 
-The wizard walks you through:
-- Naming your site
-- Picking a template (blank, mission planning, or course/workshop)
-- Choosing a theme color
-- Selecting a deployment target (GitHub Pages, Firebase, or Netlify)
-- Optional: installing the Command Architecture reference module
+- `heatherstoneio/tabulakit` becomes the Astro-based canonical TabulaKit (v2 branding becomes just "TabulaKit")
+- `heatherstoneio/tabulakit-v2` is archived (or retained as a reference branch/tag)
+- v1 Docsify users from the April 14 dry run are personally migrated; the v1 branch/tag remains accessible for reference
 
-### Step 3: Deploy
+**Merge-back criteria (OPORD backbrief 2026-04-19):**
+1. v2 scaffold builds + deploys green end-to-end (OPORD 202604-019 complete)
+2. Sites, Tasks, Setup panels operational (OPORDs 020-022 complete, or OSS shell outcome per OPORD 023 resolved)
+3. At least one non-founder user successfully onboarded against v2
+4. Zero `priority::high` blockers open against v2
 
-The wizard tells you exactly what to do for your chosen deployment target. For most people (GitHub Pages), it's:
+Merge-back will be tracked in its own OPORD (not yet drafted) once criteria are approaching satisfaction.
 
-1. Go to your repo on GitHub → **Settings** → **Pages**
-2. Set Source to **GitHub Actions**
-3. Push your changes — the site deploys automatically
+## For Contributors
 
-That's it. Your site is live.
+This fork's `main` is the integration target for Phase A work. Once scaffold commits land (Phase 1 of OPORD 019), branch protection on `main` activates — direct pushes will be blocked in favor of PRs.
 
-## What You Can Do After Setup
+Sub-forks for the Phase 2 green-deploy verification test are welcomed; follow the instructions in `.github/workflows/deploy.yml` once it exists.
 
-Once your site is running, just talk to Claude Code:
+## Questions / Issues
 
-- *"Add a new page about our onboarding process"*
-- *"Change the theme color to green"*
-- *"Update the sidebar with a Resources section"*
-- *"Help me write documentation about X"*
-- *"Deploy to Firebase"*
-
-## Templates
-
-| Template | Description |
-|----------|-------------|
-| **Blank** | Minimal starting point — home page, about page, getting started guide |
-| **Mission** | Operational reference site — timeline, roster, comms log, checklists, risk register. Includes `/note` and `/aar` skills. |
-| **Course** | Workshop or course site — syllabus, schedule, session outlines, pre-work, participant resources |
-
-## Deployment Targets
-
-| Target | Best For | Auth Support | Setup |
-|--------|----------|-------------|-------|
-| **GitHub Pages** | Public sites, simplest setup | No | Enable in Settings → Pages |
-| **Firebase** | Sites needing access control | Yes (Google sign-in) | Create project, deploy |
-| **Netlify** | Public sites, deploy previews | No | Connect repo, auto-deploys |
-
-All three are free and auto-deploy on push to `main`.
-
-## Authentication (Firebase)
-
-Three modes for controlling access:
-
-| Mode | Who Can Access |
-|------|---------------|
-| `public` | Anyone (default) |
-| `domain` | Users with a specific Google Workspace domain |
-| `allowlist` | Specific email addresses only |
-
-## Claude Code Skills
-
-| Skill | Available In | Description |
-|-------|-------------|-------------|
-| `/startup` | All templates | Interactive site setup wizard |
-| `/orient` | All templates | Save session state for continuity across sessions |
-| `/note` | Mission template | Add timestamped comms log entries with smart propagation |
-| `/aar` | Mission template | Log observations for the After Action Review |
-
-## Optional Modules
-
-### Command Architecture
-
-A military-inspired organizational framework for structured planning and execution. Includes reference docs on staff sections (S1-S7), planning process, execution lifecycle, orders communication, and operating rhythm.
-
-Install during `/startup` or manually copy from `.tabulakit/modules/command-architecture/`.
-
-## Project Structure
-
-```
-tabulakit/
-├── site/                          # Your documentation content
-│   ├── index.html                 # Docsify app shell
-│   ├── config.js                  # Site name, theme, options
-│   ├── auth-config.js             # Authentication settings
-│   ├── _sidebar.md                # Navigation
-│   └── *.md                       # Your pages
-│
-├── .claude/                       # Claude Code integration
-│   ├── CLAUDE.md                  # Project context
-│   ├── settings.json              # Permissions and hooks
-│   └── commands/                  # Slash command skills
-│
-├── .tabulakit/                    # Template system
-│   ├── templates/                 # Site templates
-│   │   ├── blank/
-│   │   ├── mission/
-│   │   └── course/
-│   └── modules/                   # Optional add-on modules
-│       └── command-architecture/
-│
-├── .github/workflows/deploy.yml   # GitHub Pages auto-deploy
-├── firebase.json                  # Firebase hosting config
-├── netlify.toml                   # Netlify hosting config
-└── LICENSE                        # MIT
-```
-
-## Creating Your Own Template
-
-Templates live in `.tabulakit/templates/<name>/` with this structure:
-
-```
-my-template/
-├── manifest.json    # Metadata, questions, skills list
-├── content/         # Markdown files copied into site/
-├── sidebar.md       # Navigation structure
-└── skills/          # Optional Claude Code skills
-    └── my-skill/
-        └── SKILL.md
-```
-
-### manifest.json
-
-```json
-{
-  "name": "My Template",
-  "description": "One-line description shown in /startup",
-  "version": "1.0.0",
-  "questions": [
-    {
-      "key": "project_name",
-      "prompt": "What is the project name?",
-      "default": "My Project",
-      "type": "text"
-    }
-  ],
-  "skills": ["my-skill"],
-  "getting_started": "Extra text for the setup summary"
-}
-```
-
-Use `{{project_name}}` placeholders in content files — they're replaced with the user's answers during `/startup`.
-
-## Local Development
-
-```bash
-npx live-server site --port=3000
-```
-
-No build step, no dependencies to install. Edit markdown, refresh browser.
-
-## Troubleshooting
-
-| Problem | Solution |
-|---------|----------|
-| `/startup` not recognized | Make sure you're running Claude Code from the repo root. If you just cloned, restart the session. |
-| `gh` not found | Install GitHub CLI: `sudo apt install gh` (Ubuntu/WSL) or see [cli.github.com](https://cli.github.com) |
-| `gh auth` fails | Run `gh auth login`, choose HTTPS, and authenticate via browser |
-| Local preview won't start | Run `npx live-server site --port=3000` from the repo root |
-| Site shows blank page | Check that `site/index.html` exists |
-| GitHub Pages not deploying | Go to Settings → Pages and set Source to **GitHub Actions** |
-| Firebase deploy fails | Run `firebase login` first, make sure `.firebaserc` has your project ID |
-| Auth not working | Check that Firebase Auth is enabled and `auth-config.js` has your config values |
-| Sidebar not showing | Verify `site/_sidebar.md` exists and has valid markdown links |
-
-## License
-
-MIT — see [LICENSE](LICENSE).
-
----
-
-Built by [Heatherstone](https://heatherstone.com). Powered by [Docsify](https://docsify.js.org/) and [Claude Code](https://claude.ai/code).
+Open an issue at [heatherstone/mojo](https://gitlab.com/heatherstone/mojo) (the Heatherstone operational repo) with label `opord::202604-019`.
