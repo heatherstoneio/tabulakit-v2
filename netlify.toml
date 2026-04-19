@@ -1,24 +1,25 @@
+# Netlify deploy configuration — preserved as a SECONDARY target in v2 per
+# OPORD 202604-019 issue #697. GitHub Pages (via .github/workflows/deploy.yml)
+# is the primary deploy target. A full deploy-path simplification evaluation
+# is scheduled under OPORD 202604-021 Phase 4.
+
 [build]
-  publish = "site"
+  publish = "dist"
+  command = "npm run build"
 
-# SPA redirect — send all paths to index.html for Docsify routing
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+[build.environment]
+  # Match .nvmrc; Netlify respects this even without a Node plugin.
+  NODE_VERSION = "22"
 
-# Cache headers for development convenience
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "no-cache"
+# Astro produces real routes — no SPA redirect needed. Netlify's default
+# pretty-URL handling serves /<slug>/index.html for /<slug> correctly.
 
 [[headers]]
-  for = "/*.css"
+  for = "/_astro/*"
   [headers.values]
-    Cache-Control = "no-cache"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/*.html"
   [headers.values]
-    Cache-Control = "no-cache"
+    Cache-Control = "public, max-age=0, must-revalidate"

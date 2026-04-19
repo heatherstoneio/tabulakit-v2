@@ -8,8 +8,17 @@ import starlight from '@astrojs/starlight';
 // single config value".
 const SITE_TITLE = process.env.TABULAKIT_TITLE || 'TabulaKit v2';
 
+// Site + base URL for absolute-URL generation (sitemaps, canonical links,
+// Starlight link builder). GitHub Actions sets SITE and BASE from the repo
+// context so sub-forks deploy against their own Pages URL without edits.
+// Fallbacks are the canonical heatherstoneio deploy target.
+const SITE = process.env.SITE || 'https://heatherstoneio.github.io';
+const BASE = process.env.BASE || '/tabulakit-v2';
+
 // https://astro.build/config
 export default defineConfig({
+	site: SITE,
+	base: BASE,
 	integrations: [
 		starlight({
 			title: SITE_TITLE,
