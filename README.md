@@ -78,6 +78,20 @@ The Setup tab UI itself (which renders these issues) ships from `tabulakit-core`
 
 **Prerequisites:** `gh` CLI installed + `gh auth login` completed.
 
+## Deploying
+
+### GitHub Pages (primary)
+
+1. Fork this repo (or use **Use this template** on GitHub to create a clean instance without a fork relationship).
+2. In your repo, go to **Settings → Pages** and set **Source** to **GitHub Actions** (one-click; required on every new repo/sub-fork).
+3. Push a commit to `main` — the `.github/workflows/deploy.yml` workflow builds and deploys to `https://<owner>.github.io/<repo>/`.
+
+**Build time baseline:** 1m01s end-to-end on a fresh template-generated sub-fork (OPORD 202604-019 #696 verification, 2026-04-19). Build job: 19s. Deploy job: 11s. Well under the 2-minute target.
+
+### Netlify (secondary)
+
+`netlify.toml` is preserved for Netlify deploys as a secondary target. Point a new Netlify site at your repo; no additional config required. A full deploy-path simplification evaluation (drop/keep Firebase vs. Netlify) is planned under [OPORD 202604-021](https://gitlab.com/heatherstone/mojo/-/issues/?label_name%5B%5D=opord%3A%3A202604-021).
+
 ## Questions / Issues
 
 Open an issue at [heatherstone/mojo](https://gitlab.com/heatherstone/mojo) (the Heatherstone operational repo) with label `opord::202604-019`.
