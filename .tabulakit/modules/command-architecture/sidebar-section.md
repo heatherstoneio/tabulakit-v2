@@ -1,7 +1,0 @@
-- **COMMAND ARCHITECTURE**
-- [Overview](docs/command-architecture/README.md)
-- [Quick Reference](docs/command-architecture/quick-reference.md)
-- [Planning Process](docs/command-architecture/planning-process.md)
-- [Execution Framework](docs/command-architecture/execution-framework.md)
-- [Orders & Communication](docs/command-architecture/orders-communication.md)
-- [Operating Rhythm](docs/command-architecture/operating-rhythm.md)
