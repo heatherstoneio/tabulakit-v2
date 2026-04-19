@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1",
+  "opord_reference": "202604-019",
+  "description": "Canonical initial set of Setup-tab tasks seeded by scripts/bootstrap.mjs on first fork-clone. Format reserved for consumption by the Setup tab UI shipping in OPORD 202604-022 — downstream code may add fields but should not break existing field semantics without bumping schema_version.",
+  "marker_label": "tabulakit-setup",
+  "items": [
+    {
+      "id": "site-title",
+      "title": "Configure site title",
+      "body": "Edit the `SITE_TITLE` constant in `astro.config.mjs`, or set the `TABULAKIT_TITLE` environment variable at build time. The site title is the single config value exposed by the v2 scaffold per OPORD 202604-019 acceptance criteria.\n\n**Where:** `astro.config.mjs` line ~7 (`const SITE_TITLE = ...`).\n\n**Test:** Run `npm run dev` and confirm the title appears in the browser tab and Starlight nav bar.",
+      "labels": ["tabulakit-setup", "setup:site", "priority::high"],
+      "phase": "site-identity"
+    },
+    {
+      "id": "first-content-page",
+      "title": "Add your first content page",
+      "body": "Create a new `.md` or `.mdx` file in `src/content/docs/` with frontmatter:\n\n```yaml\n---\ntitle: Page Title\ndescription: One-sentence description for SEO/nav\n---\n```\n\nThen add it to the sidebar in `astro.config.mjs`.\n\n**Reference:** [Getting Started guide](src/content/docs/guides/getting-started.md) in this repo.",
+      "labels": ["tabulakit-setup", "setup:content", "priority::high"],
+      "phase": "first-content"
+    },
+    {
+      "id": "deploy-target",
+      "title": "Confirm deployment target",
+      "body": "v2 default is GitHub Pages via `.github/workflows/deploy.yml` (shipped in OPORD 019 Phase 2).\n\n**To enable:** Go to repo Settings → Pages → Source: GitHub Actions.\n\n**Netlify preserved** as a secondary target (`netlify.toml`). Deploy-path simplification evaluation is scheduled under OPORD 202604-021.",
+      "labels": ["tabulakit-setup", "setup:deploy", "priority::medium"],
+      "phase": "deploy"
+    },
+    {
+      "id": "theme-customization",
+      "title": "Customize theme (optional)",
+      "body": "Starlight ships with dark/light toggle by default. To customize colors or fonts:\n\n- Add `src/styles/custom.css` with CSS custom property overrides\n- Reference it in `astro.config.mjs` via `starlight({ customCss: ['./src/styles/custom.css'] })`\n\n**Starlight theming docs:** https://starlight.astro.build/guides/css-and-tailwind/",
+      "labels": ["tabulakit-setup", "setup:theme", "priority::low"],
+      "phase": "polish"
+    },
+    {
+      "id": "custom-domain",
+      "title": "Configure custom domain (optional)",
+      "body": "If deploying to GitHub Pages:\n\n1. Add a `CNAME` file at the repo root with your domain\n2. Configure DNS (CNAME record for www → `<you>.github.io`, or A records for apex)\n3. Enable HTTPS in repo Settings → Pages → Enforce HTTPS\n\nSkip if the default `*.github.io` URL is fine.",
+      "labels": ["tabulakit-setup", "setup:domain", "priority::low"],
+      "phase": "polish"
+    }
+  ]
+}

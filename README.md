@@ -48,6 +48,36 @@ This fork's `main` is the integration target for Phase A work. Once scaffold com
 
 Sub-forks for the Phase 2 green-deploy verification test are welcomed; follow the instructions in `.github/workflows/deploy.yml` once it exists.
 
+## Local Development
+
+```bash
+nvm use                 # picks Node version from .nvmrc (22 LTS)
+npm install
+npm run dev             # → http://localhost:4321
+```
+
+Hot reload is sub-second for content changes.
+
+## First Run: Bootstrap
+
+After forking this repo (or using `gh repo create --template`), run the scaffold-level bootstrap:
+
+```bash
+npm install
+npm run bootstrap
+```
+
+The bootstrap script (`scripts/bootstrap.mjs`) is the v2 replacement for v1's `/startup` skill. It:
+
+- Uses `gh` CLI to detect the current repo
+- Reads the canonical setup items from `scripts/setup-items.json`
+- Creates an initial set of Setup-tab GitHub Issues in the repo (configure site title, first content page, deploy target, etc.)
+- Is **idempotent** — checks for existing issues labeled `tabulakit-setup` and skips duplicates on re-run
+
+The Setup tab UI itself (which renders these issues) ships from `tabulakit-core` under OPORD 202604-022.
+
+**Prerequisites:** `gh` CLI installed + `gh auth login` completed.
+
 ## Questions / Issues
 
 Open an issue at [heatherstone/mojo](https://gitlab.com/heatherstone/mojo) (the Heatherstone operational repo) with label `opord::202604-019`.

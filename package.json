@@ -1,0 +1,23 @@
+{
+  "name": "tabulakit-v2",
+  "type": "module",
+  "version": "0.1.0-scaffold",
+  "description": "TabulaKit v2 — Astro/Starlight documentation site template (OPORD 202604-019 Phase 1 scaffold)",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "bootstrap": "node scripts/bootstrap.mjs"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.38.3",
+    "astro": "^6.0.1",
+    "sharp": "^0.34.2"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

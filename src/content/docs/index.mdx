@@ -1,0 +1,53 @@
+---
+title: TabulaKit v2
+description: Fork-based documentation site template powered by Astro + Starlight + Claude Code
+template: splash
+hero:
+  tagline: Fork, bootstrap, deploy. Documentation sites for non-technical founders.
+  actions:
+    - text: Getting Started
+      link: /guides/getting-started/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/heatherstoneio/tabulakit-v2
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Next Steps
+
+<CardGrid stagger>
+	<Card title="Getting Started" icon="rocket">
+		Walk-through for creating your own site. See [Getting Started](/guides/getting-started/).
+	</Card>
+	<Card title="How Do I…?" icon="information">
+		Common tasks answered in plain English. See [How Do I…?](/guides/how-do-i/).
+	</Card>
+	<Card title="Edit content" icon="pencil">
+		Add Markdown or MDX files to `src/content/docs/` to create new pages.
+	</Card>
+	<Card title="Configure your site" icon="setting">
+		Edit the `sidebar` and `title` in `astro.config.mjs`.
+	</Card>
+	<Card title="Deploy" icon="cloud-download">
+		GitHub Pages via Actions is the default. Netlify preserved as secondary target.
+	</Card>
+	<Card title="Status" icon="star">
+		v2 is a development fork of `heatherstoneio/tabulakit`. Merge-back plan in the repo [README](https://github.com/heatherstoneio/tabulakit-v2#merge-back-plan).
+	</Card>
+</CardGrid>
+
+## About This Scaffold
+
+This is the OPORD 202604-019 Phase 1 scaffold — the minimum viable Astro/Starlight site on top of the v2 development fork. It demonstrates:
+
+- **Content location:** `src/content/docs/`
+- **Sidebar:** configured in `astro.config.mjs`
+- **Dark/light toggle:** built-in via Starlight
+- **Site title:** single config value (`TABULAKIT_TITLE` env var or `SITE_TITLE` constant in `astro.config.mjs`)
+- **Node version:** pinned via `.nvmrc` (22 LTS)
+- **Deploy:** GitHub Actions → GitHub Pages (per OPORD 019 Phase 2)
+
+Deeper template features (themed presets, Setup tab integration, tree-nav panels) ship in [OPORDs 020-022](https://gitlab.com/heatherstone/mojo/-/issues/?label_name%5B%5D=plan%3A%3A202604-004).
